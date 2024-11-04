@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+}
+
+header {
+  background: black;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+
+header h1 {
+  font-size: 24px;
+}
+
+.form-container h2, .account-section h2 {
+  margin: 20px 0;
+  color: #333;
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #4CAF50;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.alert {
+  color: red;
+  font-size: 14px;
+}
+
+.account-section p {
+  margin: 20px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+a {
+  color: #4CAF50;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* General styling similar to previous, with added classes */
+header h1 { font-size: 24px; }
+.social-login { font-size: 14px; cursor: pointer; padding: 10px; }
+button { padding: 10px; font-size: 16px; border-radius: 4px; }
+.alert { color: red; font-size: 14px; }
+#transaction-history { padding: 10px; margin-top: 10px; display: none; }
+ul { list-style-type: none; padding: 0; }
+ul li button { margin-top: 10px; }
