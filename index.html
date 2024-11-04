@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Bank - Enhanced Banking Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>X Bank</h1>
+        </header>
+
+        <!-- Login Section -->
+        <div class="form-container" id="login-section">
+            <h2>Login</h2>
+            <p>Login quickly using:</p>
+            <div class="login-options">
+                <button class="social-login">Google  Account</button>
+                <button class="social-login">Facebook Account</button>
+            </div>
+            <form id="login-form">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" required>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+                <button type="submit">Login</button>
+                <p id="login-alert" class="alert"></p>
+            </form>
+            <p>New here? <a href="#" onclick="showRegister()">Register here</a></p>
+        </div>
+
+        <!-- Register Section -->
+        <div class="form-container" id="register-section" style="display: none;">
+            <h2>User Registration</h2>
+            <form id="register-form">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" required>
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" required>
+                <button type="submit">Register</button>
+                <p id="register-alert" class="alert"></p>
+            </form>
+            <p>Already have an account? <a href="#" onclick="showLogin()">Log in here</a></p>
+        </div>
+
+        <!-- Account Section -->
+        <div id="account-section" class="account-section" style="display: none;">
+            <h2>Welcome to Your Account</h2>
+            <p>Your current balance is: <span id="balance-amount">$1000.00</span></p>
+            <button onclick="toggleTransactionHistory()">View Transaction History</button>
+            <div id="transaction-history" style="display: none;">
+                <p>Transaction history - Detailed breakdown</p>
+                <button onclick="toggleTransactionHistory()">Show Less</button>
+            </div>
+            <button onclick="showTransfer()">Transfer Funds</button>
+            <p>Convenient and secure fund transfers.</p>
+            <button onclick="showSettings()">Settings</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Fund Transfer Section -->
+        <div id="transfer-section" class="form-container" style="display: none;">
+            <h2>Transfer Funds</h2>
+            <p>Quick, secure transfers. Fees may apply.</p>
+            <form id="transfer-form">
+                <label for="recipient">Recipient</label>
+                <input type="text" id="recipient" required>
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" required>
+                <button type="submit">Confirm Transfer</button>
+            </form>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="form-container" style="display: none;">
+            <h2>Settings</h2>
+            <ul>
+                <li><button onclick="showPinSetup()">Add Security PIN</button></li>
+                <li><button>Change Password</button></li>
+                <li><button>Update Personal Info</button></li>
+                <li><button onclick="showStateID()">Connect State ID</button></li>
+            </ul>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <!-- PIN Setup Section -->
+        <div id="pin-setup-section" class="form-container" style="display: none;">
+            <h2>Set Up Security PIN</h2>
+            <p>Increase your security with a personalized PIN.</p>
+            <input type="password" placeholder="Enter PIN">
+            <button>Save PIN</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <!-- State ID Section -->
+        <div id="state-id-section" class="form-container" style="display: none;">
+            <h2>Connect Your State ID</h2>
+            <p>Link your ID securely. We prioritize your data privacy.</p>
+            <button>Connect via DMV Login</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
