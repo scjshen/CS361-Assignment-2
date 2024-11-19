@@ -78,19 +78,3 @@ json
     "message": "User not found"
 }
 HTTP Status Code: 404 Not Found
-
-UML Sequence Diagram
-Here is the UML sequence diagram that illustrates how the request and response cycle works between the client, the microservice, and the database.
-
-Client Application ---> [Microservice A] ---> [Database]
-     |                       |                    |
-   GET /users/:username/balance |                    |
-     |                       V                    |
-     |            Query database for balance       |
-     |                       |                    |
-     |                       |<-------------------|
-     |                       |   Balance Data     |
-     |                       |   and Transactions |
-     |<----------------------|                    |
-     |         Response      |                    |
-     |    (Balance + Trans)  |                    |
