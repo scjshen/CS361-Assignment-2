@@ -7,7 +7,10 @@ This microservice provides a RESTful API for retrieving a user's account balance
 API Documentation
 Endpoint: Get User Balance and Transactions
 
-
+Install Dependecies
+```bash
+pip install mongoose
+```
 Example API Request and Response
 * Request:
 ```bash
