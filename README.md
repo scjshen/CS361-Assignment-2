@@ -29,8 +29,8 @@ GET http://localhost:3000/users/chengjie/balance
 }
 ```
 
-Communication Contract
-Here are the details for interacting with Microservice A:
+##Communication Contract
+* Here are the details for interacting with Microservice A:
 * Request Method: GET
 * Endpoint: /users/:username/balance
 * Request Parameter: username – The unique user identifier (string).
