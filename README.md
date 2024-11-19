@@ -13,6 +13,7 @@ Example API Request and Response
 ```bash
 GET http://localhost:3000/users/chengjie/balance
 ```
+```python
 * Response (Success):
 {
   "success": true,
@@ -23,7 +24,7 @@ GET http://localhost:3000/users/chengjie/balance
   "success": false,
   "message": "User not found."
 }
-
+```
 
 Communication Contract
 Here are the details for interacting with Microservice A:
@@ -38,8 +39,9 @@ Request Method: GET
 * URL: /users/:username/transactions
 
 Request Example:
+```bash
 GET http://localhost:3000/users/chengjie/transactions
-
+```
 Request Parameters:
 * username – The unique username of the user (e.g., chengjie).
 
@@ -47,6 +49,7 @@ Request Parameters:
 Response
 * Success Response:
 json
+```python
 {
     "username": "chengjie",
     "transactions": [
@@ -70,11 +73,13 @@ json
         }
     ]
 }
-
+```
 * Failure Response:
 If the user with the provided ID is not found:
 json
+```python
 {
     "message": "User not found"
 }
+```
 HTTP Status Code: 404 Not Found
