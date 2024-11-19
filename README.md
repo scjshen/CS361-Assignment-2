@@ -29,7 +29,7 @@ GET http://localhost:3000/users/chengjie/balance
 }
 ```
 
-##Communication Contract
+## Communication Contract
 * Here are the details for interacting with Microservice A:
 * Request Method: GET
 * Endpoint: /users/:username/balance
