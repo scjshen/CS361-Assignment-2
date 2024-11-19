@@ -1,5 +1,5 @@
 
-# Microservice A: transaction notification API
+# Microservice A: transaction notification Microservice
 
 ## Overview
 This microservice provides a RESTful API for retrieving a user's account balance and transaction history based on their unique username. The backend is built using Node.js and MongoDB. The microservice listens for incoming HTTP requests, fetches the user's balance and transactions from the database, and responds with the appropriate data.
@@ -32,7 +32,7 @@ GET http://localhost:3000/users/chengjie/balance
 ## Communication Contract
 * Here are the details for interacting with Microservice A:
 * Request Method: GET
-* Endpoint: /users/:username/balance
+* Endpoint: /users/:username/transactions
 * Request Parameter: username – The unique user identifier (string).
 * Response Data:
     * Success: Returns the username, balance, and transactions associated with the user.
