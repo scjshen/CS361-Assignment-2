@@ -43,14 +43,14 @@ GET http://localhost:3000/notifications
     * Failure: If the request is missing any required data or contains invalid data, a failure message with status 400 is returned.
 
 Request Method: GET
-* URL: /transactions
+* URL: /notification
 
 Request Example:
 ```bash
-GET http://localhost:3000/transactions
+GET http://localhost:3000/notification
 ```
 Request Parameters:
-* username – The unique username of the user (e.g., chengjie).
+* The body must contain the postId, commentId, commenterId, postOwnerId, previousCommenters (array of previous commenters' IDs), and content (the comment text).
 
 
 Response
