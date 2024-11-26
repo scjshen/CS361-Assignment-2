@@ -1,49 +1,53 @@
 
-# Microservice A: transaction notification Microservice
+# Microservice A: comment notification Microservice
 
 ## Overview
-This microservice provides a RESTful API for retrieving a user's account balance and transaction history based on their unique username. The backend is built using Node.js and MongoDB. The microservice listens for incoming HTTP requests, fetches the user's balance and transactions from the database, and responds with the appropriate data.
+This microservice provides a RESTful API for posting comments on a microblog and notifying relevant users (post owner and previous commenters). The backend is built using Node.js and MongoDB. The microservice listens for incoming HTTP requests containing comment data, processes the data, saves it to the database, and triggers notifications.
 
 API Documentation
-Endpoint: Get User Balance and Transactions
 
 Install Dependecies
 ```bash
-pip install mongoose
+npm install express body-parser mongoose
 ```
-Example API Request and Response
+
+Endpoint: Post a Comment
+POST /comments
+This endpoint accepts a POST request to create a new comment on a post and notify the relevant users.
 * Request:
 ```bash
-GET http://localhost:3000/users/chengjie/balance
+GET http://localhost:3000/notifications
 ```
 ```python
-* Response (Success):
-{
-  "success": true,
-  "balance": 1350
+* {
+  "postId": 1,
+  "commentId": 101,
+  "commenterId": 3,
+  "postOwnerId": 1,
+  "previousCommenters": [2, 4],
+  "content": "Welcome to the first post!"
 }
 * Response (Failure):
 {
-  "success": false,
-  "message": "User not found."
+  "error": "Invalid comment data"
 }
 ```
 
 ## Communication Contract
 * Here are the details for interacting with Microservice A:
 * Request Method: GET
-* Endpoint: /users/:username/transactions
-* Request Parameter: username – The unique user identifier (string).
+* Endpoint: /comments
+* Request Parameter: The body must contain the postId, commentId, commenterId, postOwnerId, previousCommenters (array of previous commenters' IDs), and content (the comment text).
 * Response Data:
-    * Success: Returns the username, balance, and transactions associated with the user.
-    * Failure: If the user is not found, returns a failure message with a 404 status code.
+    * Success: Returns a success message with status 200.
+    * Failure: If the request is missing any required data or contains invalid data, a failure message with status 400 is returned.
 
 Request Method: GET
-* URL: /users/:username/transactions
+* URL: /transactions
 
 Request Example:
 ```bash
-GET http://localhost:3000/users/chengjie/transactions
+GET http://localhost:3000/transactions
 ```
 Request Parameters:
 * username – The unique username of the user (e.g., chengjie).
@@ -54,27 +58,7 @@ Response
 json
 ```python
 {
-    "username": "chengjie",
-    "transactions": [
-        {
-            "date": "Fri Nov 01 2024 08:00:00 GMT+0800 (China Standard Time)",
-            "description": "Grocery",
-            "amount": -50,
-            "_id": "673b0d7c111848ebf9a51655"
-        },
-        {
-            "date": "Sun Nov 03 2024 08:00:00 GMT+0800 (China Standard Time)",
-            "description": "Salary",
-            "amount": 1500,
-            "_id": "673b0d7c111848ebf9a51656"
-        },
-        {
-            "date": "Tue Nov 05 2024 08:00:00 GMT+0800 (China Standard Time)",
-            "description": "Utilities",
-            "amount": -100,
-            "_id": "673b0d7c111848ebf9a51657"
-        }
-    ]
+  "message": "Notifications created"
 }
 ```
 * Failure Response:
@@ -82,7 +66,25 @@ If the user with the provided ID is not found:
 json
 ```python
 {
-    "message": "User not found"
+  "error": "Invalid comment data"
 }
 ```
 HTTP Status Code: 404 Not Found
+
+
+#Running the Microservice
+To run the Comment Notification Microservice:
+
+Make sure MongoDB is installed and running.
+In your terminal, navigate to the project directory.
+Start the server:
+```bash
+node server.js
+```
+The server will start listening on http://localhost:3000.
+
+
+
+
+
+
