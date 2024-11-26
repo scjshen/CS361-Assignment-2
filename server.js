@@ -1,107 +1,88 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const User = require('./models/user');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/bankingApp', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
-
-app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+const notificationSchema = new mongoose.Schema({
+  userId: Number,
+  message: String,
+  read: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
+const Notification = mongoose.model("Notification", notificationSchema);
 
+mongoose
+  .connect("mongodb://localhost:27017/notifications")
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Login
-app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
+const createNotification = (userId, message) => ({ userId, message });
 
+app.post("/comments", async (req, res) => {
   try {
-      const user = await User.findOne({ username });
+    const { postId, commentId, commenterId, postOwnerId, previousCommenters, content } = req.body;
 
-      if (user && user.password === password) {
-          res.json({
-              success: true,
-              balance: user.balance,
-              transactions: user.transactions,
-              message: 'Login successful',
-          });
-      } else {
-          res.json({ success: false, message: 'Invalid username or password' });
-      }
-  } catch (error) {
-      res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
-
-// Get username
-app.get('/users/:username', async (req, res) => {
-    try {
-        const user = await User.findOne({ username: req.params.username });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json({
-            username: user.username,
-            balance: user.balance,
-            transactions: user.transactions,
-        });
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+    if (!postId || !commentId || !postOwnerId || !content || !Array.isArray(previousCommenters)) {
+      return res.status(400).json({ error: "Invalid comment data" });
     }
-});
 
-// Get user balance
-app.get('/users/:username/balance', async (req, res) => {
-  try {
-      const user = await User.findOne({ username: req.params.username });
+    const notifications = [
+      createNotification(postOwnerId, `New comment on your post: "${content}"`),
+    ];
 
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
+    previousCommenters.forEach((prevCommenterId) => {
+      if (prevCommenterId !== commenterId) {
+        notifications.push(createNotification(prevCommenterId, `Someone also commented: "${content}"`));
       }
+    });
 
-      res.json({
-          username: user.username,
-          balance: user.balance,
-      });
+    await Notification.insertMany(notifications);
+
+    res.status(200).json({ message: "Notifications created" });
   } catch (err) {
-      res.status(500).json({ message: 'Server error' });
+    console.error("Error creating notifications:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-//Get user transactions
-app.get('/users/:username/transactions', async (req, res) => {
+app.get("/notifications", async (req, res) => {
   try {
-      const user = await User.findOne({ username: req.params.username });
+    const { userId } = req.query;
 
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
 
-      res.json({
-          transactions: user.transactions
-      });
+    const notifications = await Notification.find({ userId });
+    res.json({ notifications });
   } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error' });
+    console.error("Error retrieving notifications:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
+app.patch("/notifications/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    const updatedNotification = await Notification.findByIdAndUpdate(
+      id,
+      { read: true },
+      { new: true }
+    );
+
+    if (!updatedNotification) {
+      return res.status(404).json({ error: "Notification not found" });
+    }
+
+    res.json({ message: "Notification marked as read", notification: updatedNotification });
+  } catch (err) {
+    console.error("Error updating notification:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
+
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));
